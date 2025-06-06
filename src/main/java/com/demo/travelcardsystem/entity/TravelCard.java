@@ -3,6 +3,9 @@ package com.demo.travelcardsystem.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @EqualsAndHashCode
 public  class TravelCard implements Observable {
@@ -11,6 +14,7 @@ public  class TravelCard implements Observable {
     private String cardNumber;
     private double balance;
     private Journey currentJourney;
+    private List<Observer<TravelCard>> observerCollection = new ArrayList<>();
 
     public synchronized void addCredit(double amount) {
         balance += amount;
