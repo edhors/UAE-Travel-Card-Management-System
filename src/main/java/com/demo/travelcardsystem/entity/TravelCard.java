@@ -35,7 +35,7 @@ public  class TravelCard implements Observable {
     }
 
     @Override
-    public void registerObserver(Observer observer) {
+    public void registerObserver(Observer<TravelCard> observer) {
         observerCollection.add(observer);
     }
 }
