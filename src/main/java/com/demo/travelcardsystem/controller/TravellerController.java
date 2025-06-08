@@ -25,6 +25,7 @@ public class TravellerController {
     @PostMapping(value = "/register")
     public void registerNewUser(@RequestBody CardRegistrationRequest cardRegistrationRequest) {
         travellerService.registerNewCard(cardRegistrationRequest);
+        
     }
 
     @PostMapping(value = "/recharge/{rechargeAmount}")
