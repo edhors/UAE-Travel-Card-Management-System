@@ -1,6 +1,7 @@
 package com.demo.travelcardsystem.businessrule;
 
 import com.demo.travelcardsystem.constant.TransportType;
+import static com.demo.travelcardsystem.constant.Fares.*;
 import com.demo.travelcardsystem.constant.Zone;
 import com.demo.travelcardsystem.entity.ZonePair;
 import lombok.Data;
@@ -85,15 +86,19 @@ public class TravelStrategy {
 
     };
 
-    public RuleCollection loadAllBusinessRules() {
-        anyWhereInZoneOneStrategy.accept(2.50);
-        anyOneZoneOutsideZoneOneStrategy.accept(2.00);
-        anyTwoZoneIncludingZoneOneStrategy.accept(3.00);
-        anyTwoZoneExcludingZoneOneStrategy.accept(2.25);
-        anyThreeZoneStrategy.accept(3.20);
-        anyJourneyByBus.accept(1.80, TransportType.BUS);
+    public RuleCollection loadDefaultFareRules() {
+        anyWhereInZoneOneStrategy.accept(ZONE_ONE);
+        anyOneZoneOutsideZoneOneStrategy.accept(OUTSIDE_ZONE_ONE);
+        anyTwoZoneIncludingZoneOneStrategy.accept(TWO_ZONES_WITH_ZONE_ONE);
+        anyTwoZoneExcludingZoneOneStrategy.accept(TWO_ZONES_WITHOUT_ZONE_ONE);
+        anyThreeZoneStrategy.accept(THREE_ZONES);
+        anyJourneyByBus.accept(FARE_BUS, TransportType.BUS);
 
+<<<<<<< Updated upstream
         this.ruleCollection.setMaxFare(7.0);
+=======
+        this.ruleCollection.setMaxFare(MAX_FARE);
+>>>>>>> Stashed changes
 
         return this.ruleCollection;
     }
