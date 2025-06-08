@@ -20,7 +20,7 @@ public class Rule {
 
     public boolean isRuleSatisfied(Journey journey) {
         return zonePairSet.stream().anyMatch(zonePair -> zonePair.checkIfJourneyMatchToThisZonePair(journey))
-                || (journey.getTransportType().equals(this.getTransportType()) && zonePairSet.isEmpty());
+|| (journey.getTransportType().equals(this.getTransportType()) && zonePairSet.isEmpty());
     }
 
 

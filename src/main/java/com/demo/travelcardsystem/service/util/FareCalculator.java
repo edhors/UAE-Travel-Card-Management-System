@@ -39,7 +39,7 @@ public class FareCalculator {
                 .stream()
                 .filter(rulePredicate)
                 .min(ruleComparator)
-                .get();
+                .orElseThrow(() -> new IllegalStateException("No applicable fare rule found for journey"));
 
         //finally, return the chargeable fare
         return applicableRule.getChargeableFare();

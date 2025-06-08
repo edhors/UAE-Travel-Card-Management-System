@@ -31,6 +31,7 @@ public class InMemoryCardTransactionRepository {
 
     public TravelCard findCardByCardNumber(String cardNumber) {
         TravelCard travelCard = travelCardStore.get(cardNumber);
+        System.out.println(travelCard);
         if(travelCard == null) {
             throw new InvalidCardException("This card is Invalid. Please use a valid card");
         }
