@@ -3,6 +3,7 @@ package com.demo.travelcardsystem.service;
 import com.demo.travelcardsystem.entity.Journey;
 import com.demo.travelcardsystem.entity.Station;
 import com.demo.travelcardsystem.entity.TravelCard;
+import com.demo.travelcardsystem.entity.TravelCardObserver;
 import com.demo.travelcardsystem.exception.InvalidCardException;
 import com.demo.travelcardsystem.exception.InvalidDataProvidedException;
 import com.demo.travelcardsystem.exception.InvalidRechargeAmount;
@@ -22,6 +23,7 @@ public class TravellerService {
 
     private InMemoryCardTransactionRepository inMemoryCardTransactionRepository;
     private TravelCardConverter travelCardConverter;
+    private TravelCardObserver travelCardObserver;
 
     /**
      * This method register new user/card in the system
@@ -33,7 +35,7 @@ public class TravellerService {
             throw new InvalidCardException("This card is Invalid. Please use a valid card");
         }
 
-        if(cardRegistrationRequest != null && cardRegistrationRequest.getBalance() < 0 ) {
+        if(cardRegistrationRequest.getBalance() < 0 ) {
             throw new InvalidRechargeAmount("Recharge amount must not be negative");
         }
 
@@ -70,6 +72,12 @@ public class TravellerService {
         if(null == swipeRequest.getTransportType()) throw new InvalidDataProvidedException();
 
         TravelCard travelCard = inMemoryCardTransactionRepository.findCardByCardNumber(swipeRequest.getCardNumber());
+        
+        // Ensure observer is registered for fare deduction
+        if (travelCard.getObserverCollection().isEmpty()) {
+            travelCard.registerObserver(travelCardObserver);
+        }
+        
         Station station = inMemoryCardTransactionRepository.findStationByName(swipeRequest.getStationName());
         if (null != travelCard.getCurrentJourney()) { // Cardholder is in-transit
             // set the end-station in Current Journey of TravelCard
