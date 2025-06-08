@@ -40,7 +40,7 @@ class RechargeTravelCardTests extends IntegrationTest{
     }
 
     @BeforeEach
-    public void resetRepository() {
+    void resetRepository() {
         inMemoryCardTransactionRepository.clearTravelCardStore();
 
     }
@@ -48,7 +48,7 @@ class RechargeTravelCardTests extends IntegrationTest{
 
     @DisplayName("Service is Up and Running")
     @Test
-    public void check_if_ping_is_working() throws Exception {
+    void check_if_ping_is_working() throws Exception {
         mockMvc.perform(get("/api/card/ping"))
                 .andExpect(status().isOk());
 
@@ -57,7 +57,7 @@ class RechargeTravelCardTests extends IntegrationTest{
     @DisplayName("User try to register himself successfully")
     @ParameterizedTest
     @MethodSource("usersGenerator")
-    public void register_user_in_the_system(String cardNumber, double amount) throws Exception {
+    void register_user_in_the_system(String cardNumber, double amount) throws Exception {
         //GIVEN - user enter his user detail
         TravelCard travelCard = new TravelCard();
         travelCard.setCardNumber(cardNumber);
@@ -77,7 +77,7 @@ class RechargeTravelCardTests extends IntegrationTest{
 
     @DisplayName("User try to recharge a invalid card. System throws INVALID_CARD exception")
     @Test
-    public void register_user_with_invalid_card_number() throws Exception {
+    void register_user_with_invalid_card_number() throws Exception {
 
         //INVALID CARD NUMBER IS SET HERE
         TravelCard travelCard = new TravelCard();
@@ -94,13 +94,13 @@ class RechargeTravelCardTests extends IntegrationTest{
 
 
         //THEN -  exception should be thrown
-        assertEquals(errorMsg, "This card is Invalid. Please use a valid card");
+        assertEquals("This card is Invalid. Please use a valid card", errorMsg);
     }
 
     @DisplayName("Users are able to recharge the card successfully")
     @ParameterizedTest
     @MethodSource("usersGenerator")
-    public void users_are_able_to_recharge_the_card_successfully(String cardNumber, double amount) throws Exception {
+    void users_are_able_to_recharge_the_card_successfully(String cardNumber, double amount) throws Exception {
         // GIVEN - user exists in the system with a valid card number and zero amount on card. Records are directly inserted in the repository.
         travelHelperTest.directUserRegistration(cardNumber, 0);
 
@@ -112,7 +112,7 @@ class RechargeTravelCardTests extends IntegrationTest{
 
 
         //THEN - card should be recharged with provided amount.
-        assertEquals(inMemoryCardTransactionRepository.findCardByCardNumber(cardNumber).getBalance(), amount);
+        assertEquals(amount, inMemoryCardTransactionRepository.findCardByCardNumber(cardNumber).getBalance());
     }
 
 }
